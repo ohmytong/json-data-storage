@@ -1,0 +1,62 @@
+{
+  "trials": [
+    {
+      "Participant_ID": "mhhzqmffox607fdox9q",
+      "Group_ID": 1,
+      "Trial_Num": 1,
+      "Car_Risk": "NoCar",
+      "Signal_State": "GreenLight",
+      "Social_Norm": "NoPed",
+      "DV_A_Choice": 2,
+      "RT_ms": 336,
+      "DV_Collision": 0,
+      "DV1_RiskAgree": 2,
+      "DV2_SocialConsider": 2,
+      "DV3_NoticedSignal": 1
+    },
+    {
+      "Participant_ID": "mhhzqmffox607fdox9q",
+      "Group_ID": 1,
+      "Trial_Num": 2,
+      "Car_Risk": "LowSpeed",
+      "Signal_State": "RedLight",
+      "Social_Norm": "Crosswalk",
+      "DV_A_Choice": 2,
+      "RT_ms": 390,
+      "DV_Collision": 0,
+      "DV1_RiskAgree": 2,
+      "DV2_SocialConsider": 3,
+      "DV3_NoticedSignal": 2
+    },
+    {
+      "Participant_ID": "mhhzqmffox607fdox9q",
+      "Group_ID": 1,
+      "Trial_Num": 3,
+      "Car_Risk": "HighSpeed",
+      "Signal_State": "GreenLight",
+      "Social_Norm": "Crossing",
+      "DV_A_Choice": 2,
+      "RT_ms": 570,
+      "DV_Collision": 0,
+      "DV1_RiskAgree": 2,
+      "DV2_SocialConsider": 3,
+      "DV3_NoticedSignal": 2
+    }
+  ],
+  "post": {
+    "Participant_ID": "mhhzqmffox607fdox9q",
+    "Age": 10,
+    "Gender": "男",
+    "Driver": "否",
+    "Cycle": "否",
+    "Overconfidence": 2,
+    "BSSS1": 2,
+    "BSSS2": 2,
+    "BSSS3": 2,
+    "BSSS4": 2,
+    "BSSS5": 1,
+    "BSSS6": 2,
+    "BSSS7": 2,
+    "BSSS8": 2
+  }
+}
