@@ -818,7 +818,7 @@ btnPostSubmit.addEventListener('click', ()=>{
  function uploadToServer(data, participantId) {
             
             // !!! 1. 替换为您的 GitHub 个人访问令牌 (PAT) !!!
-            const GITHUB_TOKEN = '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'; 
+            const GITHUB_TOKEN = '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'; 
             
             // !!! 2. 替换为您的 GitHub 用户名 !!!
             const GITHUB_OWNER = 'ohmytong'; 
@@ -927,4 +927,5 @@ function initUI(){
   requestAnimationFrame(ts=>{ last=ts; loop(ts); });
 }
 initUI();
+
 // Post
