@@ -1,0 +1,58 @@
+* { box-sizing: border-box; }
+html, body { margin: 0; height: 100%; font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial; }
+#app { height: 100vh; }
+
+/* 游戏页面底（浅绿色背景） */
+#stagePane {
+  position: relative;
+  height: 100vh;
+  display: flex; align-items: center; justify-content: center;
+  background: #e7ecf3; /* 你提到的浅绿色背景 */
+}
+
+/* 包裹器：让 HUD 锚在画布左上角 */
+.stageWrap {
+  position: relative; /* 关键：HUD 相对于它定位 */
+  display: inline-block;
+}
+
+/* 画布本体 */
+#stage {
+  background: #d7e0ea;
+  border: 1px solid #c8d1dc;
+  border-radius: 10px;
+  box-shadow: 0 2px 14px rgba(0,0,0,0.08);
+}
+
+/* HUD：固定在画布左上角 */
+.hud {
+  position: absolute; top: 12px; left: 12px;
+  display: flex; flex-direction: column; gap: 8px;
+  max-width: 360px; z-index: 5;
+}
+.message.small {
+  background: rgba(255,255,255,0.94);
+  padding: 10px 12px;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px; font-size: 14px;
+}
+.primary {
+  padding: 8px 12px; border: 0;
+  background: #2563eb; color: #fff;
+  border-radius: 10px; cursor: pointer;
+}
+.primary:hover { background: #1e4fbe; }
+
+/* 徽章（画布上角） */
+.badge {
+  position: absolute; top: 12px; left: 12px;
+  background: rgba(0,0,0,0.66); color:#fff;
+  padding: 6px 10px; border-radius: 10px; font-size: 14px;
+  z-index: 4;
+}
+.badge.right { left: auto; right: 12px; }
+
+/* 颜色参考：
+   玩家：淡青填充 #67e8f9，描边 #0ea5b7
+   他人：琥珀填充 #fbbf24，紫色描边 #8b5cf6
+*/

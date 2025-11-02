@@ -1,0 +1,56 @@
+{
+  "serverUploadUrl": "http://localhost:3000/upload",
+
+  "canvas": { "width": 1200, "height": 720 },
+
+  "scalePxPerM": 12,
+  "specCN": {
+    "laneWidthM": 3.5,
+    "lanes": 4,
+    "sidewalkWidthM": 3.5
+  },
+
+  "player": { "radius": 10, "speedPps": 180 },
+
+  "road": {
+    "x": 0,
+    "width": 0,
+    "color": "#8e9ba8",
+    "laneMarkColor": "#ffffff"
+  },
+
+  "crosswalk": {
+    "y": 0,
+    "height": 60,
+    "barWidth": 28,
+    "gap": 16,
+    "lightState": "green"
+  },
+
+  "areas": {
+    "goal": { "x": 980, "y": 260, "w": 160, "h": 280, "label": "咖啡馆" }
+  },
+
+  "phaseSettings": [
+    { "id": 1, "label": "熟悉 + 指示直接横穿（无车）", "lightState": "red", "peers": 2, "car": "none" },
+    { "id": 2, "label": "指示使用斑马线（无车）",        "lightState": "green", "peers": 0, "car": "none" },
+    { "id": 3, "label": "自由选择（可能有人横穿/车辆慢或快）", "lightState": "green", "peers": 4, "car": "slow" }
+  ],
+
+  "peer": {
+    "radius": 8,
+    "minSpeedPps": 110,
+    "maxSpeedPps": 170,
+    "jitterPps": 25,
+    "jitterTauSec": 0.8
+  },
+
+  "car": {
+    "width": 42,
+    "height": 72,
+    "slowSpeedPps": 140,
+    "fastSpeedPps": 260
+  },
+
+  "samplingHz": 1
+}

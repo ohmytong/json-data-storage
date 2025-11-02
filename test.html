@@ -1,0 +1,311 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <title>问卷测试</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      padding: 20px;
+      font-family: system-ui, -apple-system, sans-serif;
+      background: #f5f5f5;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+    .container {
+      background: #fff;
+      border-radius: 12px;
+      padding: 24px;
+      max-width: 640px;
+      width: 100%;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    h2 { margin-top: 0; }
+    .question {
+      margin: 16px 0;
+      padding: 12px;
+      background: #f9fafb;
+      border-radius: 8px;
+    }
+    .question p {
+      margin: 0 0 8px 0;
+      font-weight: 500;
+    }
+    .options {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .options label {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      padding: 6px 10px;
+      background: #fff;
+      border: 1px solid #e5e7eb;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    .options label:hover {
+      background: #f0f9ff;
+      border-color: #3b82f6;
+    }
+    .btn {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 8px;
+      background: #2563eb;
+      color: #fff;
+      cursor: pointer;
+      font-size: 16px;
+      width: 100%;
+      margin-top: 16px;
+    }
+    .btn:hover { background: #1d4ed8; }
+    .btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+    hr {
+      margin: 24px 0;
+      border: none;
+      border-top: 1px solid #e5e7eb;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>实验问卷测试</h2>
+    
+    <!-- Trial 问卷 -->
+    <div id="trialSection">
+      <h3>每个情境后的问卷（3题）</h3>
+      
+      <div class="question">
+        <p>假设我选择直接横穿马路，我认为该行为是危险的。</p>
+        <div class="options">
+          <label><input type="radio" name="q1" value="1"> 非常不同意</label>
+          <label><input type="radio" name="q1" value="2"> 不同意</label>
+          <label><input type="radio" name="q1" value="3"> 中立</label>
+          <label><input type="radio" name="q1" value="4"> 同意</label>
+          <label><input type="radio" name="q1" value="5"> 非常同意</label>
+        </div>
+      </div>
+
+      <div class="question">
+        <p>我在决策时认真考虑了其他行人的存在和行为。</p>
+        <div class="options">
+          <label><input type="radio" name="q2" value="1"> 非常不同意</label>
+          <label><input type="radio" name="q2" value="2"> 不同意</label>
+          <label><input type="radio" name="q2" value="3"> 中立</label>
+          <label><input type="radio" name="q2" value="4"> 同意</label>
+          <label><input type="radio" name="q2" value="5"> 非常同意</label>
+        </div>
+      </div>
+
+      <div class="question">
+        <p>我注意到了人行横道的信号灯指示。</p>
+        <div class="options">
+          <label><input type="radio" name="q3" value="1"> 非常不同意</label>
+          <label><input type="radio" name="q3" value="2"> 不同意</label>
+          <label><input type="radio" name="q3" value="3"> 中立</label>
+          <label><input type="radio" name="q3" value="4"> 同意</label>
+          <label><input type="radio" name="q3" value="5"> 非常同意</label>
+        </div>
+      </div>
+
+      <button class="btn" id="btnTrialTest" disabled>提交（情境问卷）</button>
+    </div>
+
+    <hr>
+
+    <!-- Post 问卷 第1页 -->
+    <div id="postSection1">
+      <h3>实验后问卷 - 第1页</h3>
+      
+      <div class="question">
+        <p>年龄：</p>
+        <input type="number" id="post_age" min="10" max="100" placeholder="岁" style="width:100px;padding:6px;">
+      </div>
+
+      <div class="question">
+        <p>性别：</p>
+        <div class="options">
+          <label><input type="radio" name="post_gender" value="男"> 男</label>
+          <label><input type="radio" name="post_gender" value="女"> 女</label>
+          <label><input type="radio" name="post_gender" value="其他"> 其他</label>
+        </div>
+      </div>
+
+      <button class="btn" id="btnPost1Test" disabled>下一页</button>
+    </div>
+
+    <hr>
+
+    <!-- Post 问卷 第2页 -->
+    <div id="postSection2">
+      <h3>实验后问卷 - 第2页</h3>
+
+      <div class="question">
+        <p>您是否每周至少开车一次？</p>
+        <div class="options">
+          <label><input type="radio" name="post_driver" value="是"> 是</label>
+          <label><input type="radio" name="post_driver" value="否"> 否</label>
+        </div>
+      </div>
+
+      <div class="question">
+        <p>您是否经常骑行（电动车/摩托车/自行车）？</p>
+        <div class="options">
+          <label><input type="radio" name="post_cycle" value="是"> 是</label>
+          <label><input type="radio" name="post_cycle" value="否"> 否</label>
+        </div>
+      </div>
+
+      <div class="question">
+        <p>您认为自己比大多数人更擅长判断汽车的速度和距离。</p>
+        <div class="options" id="overconf_options"></div>
+      </div>
+
+      <div class="question">
+        <p>我倾向于探索陌生的环境/场所</p>
+        <div class="options" id="bsss1_options"></div>
+      </div>
+
+      <div class="question">
+        <p>我在家中停留时间过长会产生烦躁感</p>
+        <div class="options" id="bsss2_options"></div>
+      </div>
+
+      <div class="question">
+        <p>我偏好从事具有惊险特性的活动</p>
+        <div class="options" id="bsss3_options"></div>
+      </div>
+
+      <div class="question">
+        <p>我喜欢参与激烈的社交聚会</p>
+        <div class="options" id="bsss4_options"></div>
+      </div>
+
+      <div class="question">
+        <p>我期望进行无预先规划路线或时间表的即兴旅行</p>
+        <div class="options" id="bsss5_options"></div>
+      </div>
+
+      <div class="question">
+        <p>我偏爱那些令人兴奋且行为难以预测的朋友</p>
+        <div class="options" id="bsss6_options"></div>
+      </div>
+
+      <div class="question">
+        <p>我愿意尝试蹦极活动</p>
+        <div class="options" id="bsss7_options"></div>
+      </div>
+
+      <div class="question">
+        <p>我渴求新颖且刺激的体验，即使其具有潜在的违法性</p>
+        <div class="options" id="bsss8_options"></div>
+      </div>
+
+      <button class="btn" id="btnPost2Test" disabled>提交（实验后问卷）</button>
+    </div>
+  </div>
+
+  <script>
+    // 生成 1-5 选项
+    function build5Options(containerId, name) {
+      const labels = ['非常不同意','不同意','中立','同意','非常同意'];
+      const container = document.getElementById(containerId);
+      for (let i=1; i<=5; i++) {
+        const label = document.createElement('label');
+        label.innerHTML = `<input type="radio" name="${name}" value="${i}"> ${labels[i-1]}`;
+        container.appendChild(label);
+      }
+    }
+
+    // 构建所有 1-5 量表
+    build5Options('overconf_options', 'post_overconf');
+    build5Options('bsss1_options', 'bsss1');
+    build5Options('bsss2_options', 'bsss2');
+    build5Options('bsss3_options', 'bsss3');
+    build5Options('bsss4_options', 'bsss4');
+    build5Options('bsss5_options', 'bsss5');
+    build5Options('bsss6_options', 'bsss6');
+    build5Options('bsss7_options', 'bsss7');
+    build5Options('bsss8_options', 'bsss8');
+
+    // 验证逻辑
+    function checkedValue(name) {
+      const nodes = document.querySelectorAll(`input[name="${name}"]`);
+      for (const n of nodes) if (n.checked) return n.value;
+      return null;
+    }
+
+    document.addEventListener('change', () => {
+      // Trial 问卷
+      const q1 = checkedValue('q1');
+      const q2 = checkedValue('q2');
+      const q3 = checkedValue('q3');
+      document.getElementById('btnTrialTest').disabled = !(q1 && q2 && q3);
+
+      // Post 第1页
+      const age = document.getElementById('post_age').value.trim();
+      const gender = checkedValue('post_gender');
+      document.getElementById('btnPost1Test').disabled = !(age && gender);
+
+      // Post 第2页
+      const driver = checkedValue('post_driver');
+      const cycle = checkedValue('post_cycle');
+      const overconf = checkedValue('post_overconf');
+      const bsss1 = checkedValue('bsss1');
+      const bsss2 = checkedValue('bsss2');
+      const bsss3 = checkedValue('bsss3');
+      const bsss4 = checkedValue('bsss4');
+      const bsss5 = checkedValue('bsss5');
+      const bsss6 = checkedValue('bsss6');
+      const bsss7 = checkedValue('bsss7');
+      const bsss8 = checkedValue('bsss8');
+      
+      document.getElementById('btnPost2Test').disabled = !(
+        driver && cycle && overconf && 
+        bsss1 && bsss2 && bsss3 && bsss4 && 
+        bsss5 && bsss6 && bsss7 && bsss8
+      );
+    });
+
+    document.getElementById('btnTrialTest').addEventListener('click', () => {
+      alert('情境问卷提交成功！\n' +
+        'Q1: ' + checkedValue('q1') + '\n' +
+        'Q2: ' + checkedValue('q2') + '\n' +
+        'Q3: ' + checkedValue('q3'));
+    });
+
+    document.getElementById('btnPost1Test').addEventListener('click', () => {
+      alert('第1页提交成功！\n' +
+        '年龄: ' + document.getElementById('post_age').value + '\n' +
+        '性别: ' + checkedValue('post_gender'));
+    });
+
+    document.getElementById('btnPost2Test').addEventListener('click', () => {
+      const data = {
+        driver: checkedValue('post_driver'),
+        cycle: checkedValue('post_cycle'),
+        overconf: checkedValue('post_overconf'),
+        bsss1: checkedValue('bsss1'),
+        bsss2: checkedValue('bsss2'),
+        bsss3: checkedValue('bsss3'),
+        bsss4: checkedValue('bsss4'),
+        bsss5: checkedValue('bsss5'),
+        bsss6: checkedValue('bsss6'),
+        bsss7: checkedValue('bsss7'),
+        bsss8: checkedValue('bsss8')
+      };
+      alert('实验后问卷提交成功！\n' + JSON.stringify(data, null, 2));
+      console.log(data);
+    });
+  </script>
+</body>
+</html>
