@@ -1,0 +1,72 @@
+# 这是一个 GitHub Actions 工作流，由外部 Webhook 触发 (repository_dispatch)
+# 它安全地使用存储在 Secrets 中的 PAT 来写入仓库中的文件。
+
+name: Upload Experiment Data
+
+# 监听 repository_dispatch 事件，这是我们从前端 JS 发送的匿名触发器
+on:
+  repository_dispatch:
+    types: [data_upload]
+
+# 限制并发，确保不会同时运行太多任务
+concurrency: 
+  group: ${{ github.workflow }}-${{ github.event.client_payload.participant_id }}
+  cancel-in-progress: true
+
+jobs:
+  write_data_file:
+    runs-on: ubuntu-latest
+    
+    # 使用在步骤一中创建的 Secret 来授权
+    # 注意：github.token 在 repo_dispatch 中没有写入权限，必须使用自定义 PAT
+    permissions:
+      contents: write
+      
+    steps:
+      - name: Extract Payload and Write File
+        uses: actions/github-script@v6
+        with:
+          # 使用我们安全存储的 PAT 来授权
+          github-token: ${{ secrets.REPO_WRITE_TOKEN }}
+          
+          script: |
+            const payload = context.payload.client_payload;
+            const participantId = payload.participant_id;
+            
+            if (!participantId || !payload.data) {
+              core.setFailed('Payload missing participant_id or data field.');
+              return;
+            }
+            
+            const content = JSON.stringify(payload.data, null, 2);
+            const filePath = `results/${participantId}_data.json`;
+            
+            console.log(`Writing file: ${filePath}`);
+            
+            // GitHub API 调用: 获取文件 SHA (如果存在)
+            let sha = null;
+            try {
+              const { data } = await github.rest.repos.getContent({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                path: filePath,
+              });
+              sha = data.sha;
+            } catch (error) {
+              if (error.status !== 404) {
+                throw error; // 忽略 404 错误
+              }
+            }
+
+            // GitHub API 调用: 提交文件内容
+            await github.rest.repos.createOrUpdateFileContents({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              path: filePath,
+              message: `[Data Upload] Participant ${participantId} data submission`,
+              content: Buffer.from(content).toString('base64'),
+              sha: sha, // 如果文件不存在，则不传 sha
+              branch: 'main', // 请替换为您的主分支名称
+            });
+            
+            console.log(`Successfully committed data for ${participantId}`);
