@@ -1,0 +1,292 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <title>过街行为决策实验</title>
+<style>
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0;
+    height: 100%;
+    font-family: system-ui, -apple-system, sans-serif;
+    background: #1e293b;
+  }
+  #wrap {
+    display: flex;
+    min-height: 100vh;
+    align-items: center;
+    justify-content: center;
+  }
+  .container {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  #stage {
+    background: #d7e0ea;
+    border: 2px solid #475569;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+  }
+  
+  /* 弹窗样式 */
+  .modal {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.6);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+  }
+  .modal.show { display: flex; }
+  
+  .modal-content {
+    background: #fff;
+    border-radius: 16px;
+    padding: 24px;
+    max-width: 580px;
+    width: 90%;
+    max-height: 80vh;
+    overflow-y: auto;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+  }
+  
+  .modal-content h3 {
+    margin: 0 0 16px 0;
+    font-size: 20px;
+    color: #1e293b;
+  }
+  
+  .question-item {
+    margin: 16px 0;
+    padding: 12px;
+    background: #f8fafc;
+    border-radius: 8px;
+  }
+  
+  .question-item p {
+    margin: 0 0 10px 0;
+    font-weight: 500;
+    color: #334155;
+    font-size: 15px;
+  }
+  
+  .radio-group {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  
+  .radio-group label {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding: 6px 12px;
+    background: #fff;
+    border: 1.5px solid #e2e8f0;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: all 0.2s;
+  }
+  
+  .radio-group label:hover {
+    background: #eff6ff;
+    border-color: #3b82f6;
+  }
+  
+  .radio-group input[type="radio"] {
+    margin: 0;
+  }
+  
+  .btn {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 8px;
+    background: #2563eb;
+    color: #fff;
+    cursor: pointer;
+    font-size: 16px;
+    width: 100%;
+    margin-top: 16px;
+    transition: background 0.2s;
+  }
+  
+  .btn:hover {
+    background: #1d4ed8;
+  }
+  
+  .btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+  
+  input[type="number"] {
+    padding: 8px 12px;
+    border: 1.5px solid #e2e8f0;
+    border-radius: 6px;
+    font-size: 14px;
+    width: 120px;
+  }
+</style>
+</head>
+<body>
+  <div id="wrap">
+    <div class="container">
+      <canvas id="stage" width="1200" height="720"></canvas>
+      
+      <!-- 开始弹窗 -->
+      <div class="modal show" id="modalStart">
+   <div class="modal-content">
+  <h3>实验说明与任务目标</h3>
+  <p style="line-height:1.6;">
+    欢迎参与行人行为决策研究。<br>
+    您将置身于多个虚拟道路场景中扮演行人，您的任务是在确保安全的前提下，尽快到达马路对面的目的地。<br><br>
+    在每个场景中，您需要根据道路环境和交通状况选择一种过街路径，仅需使用鼠标进行一次点击（运动将自动完成）：<br>
+    <br>
+    <strong>选项1--点击斑马线区域：通过人行横道穿越马路</strong>
+    <br>
+   <strong>选项2--点击非斑马线的路面区域：直接横穿马路</strong> 
+    <br><br>
+    请根据您的直观判断立即做出选择，您的选择将不可更改。每个场景结束后，请完成随后的简短问卷。
+  </p>
+  <button class="btn" id="btnStart">开始实验</button>
+</div>
+      </div>
+      
+      <!-- 情境问卷弹窗 -->
+      <div class="modal" id="modalTrial">
+        <div class="modal-content">
+          <div class="question-item">
+            <p>假设您选择了直接横穿马路，您认为该行为的危险程度是多高？</p>
+            <div class="radio-group">
+              <label><input type="radio" name="q1" value="1"> 完全不危险</label>
+              <label><input type="radio" name="q1" value="2"> 略微危险</label>
+              <label><input type="radio" name="q1" value="3"> 中度危险</label>
+              <label><input type="radio" name="q1" value="4"> 相当危险</label>
+              <label><input type="radio" name="q1" value="5"> 极其危险</label>
+            </div>
+          </div>
+
+          <div class="question-item">
+            <p>我在决策时考虑了其他行人的存在和行为</p>
+            <div class="radio-group">
+              <label><input type="radio" name="q2" value="1"> 非常不同意</label>
+              <label><input type="radio" name="q2" value="2"> 不同意</label>
+              <label><input type="radio" name="q2" value="3"> 中立/不确定</label>
+              <label><input type="radio" name="q2" value="4"> 同意</label>
+              <label><input type="radio" name="q2" value="5"> 非常同意</label>
+            </div>
+          </div>
+
+          <div class="question-item">
+            <p>在您做出路径选择时，人行横道交通灯的指示是什么？</p>
+            <div class="radio-group">
+              <label><input type="radio" name="q3" value="1"> 红灯</label>
+              <label><input type="radio" name="q3" value="2"> 绿灯</label>
+              <label><input type="radio" name="q3" value="3"> 我没有注意到</label>
+
+            </div>
+          </div>
+
+          <button class="btn" id="btnSubmitTrial" disabled>确定</button>
+        </div>
+      </div>
+      
+      <!-- 实验后问卷 第1页 -->
+      <div class="modal" id="modalPost1">
+        <div class="modal-content">
+          <div class="question-item">
+            <p>年龄：</p>
+            <input type="number" id="post_age" min="10" max="100" placeholder="岁">
+          </div>
+
+          <div class="question-item">
+            <p>性别：</p>
+            <div class="radio-group">
+              <label><input type="radio" name="post_gender" value="男"> 男</label>
+              <label><input type="radio" name="post_gender" value="女"> 女</label>
+              <label><input type="radio" name="post_gender" value="其他"> 其他</label>
+            </div>
+          </div>
+
+          <button class="btn" id="btnPost1Next" disabled>下一页</button>
+        </div>
+      </div>
+      
+      <!-- 实验后问卷 第2页 -->
+      <div class="modal" id="modalPost2">
+        <div class="modal-content" style="max-height:85vh;">
+          <div class="question-item">
+            <p>您是否每周至少开车一次？</p>
+            <div class="radio-group">
+              <label><input type="radio" name="post_driver" value="是"> 是</label>
+              <label><input type="radio" name="post_driver" value="否"> 否</label>
+            </div>
+          </div>
+
+          <div class="question-item">
+            <p>您是否经常骑行（电动车/摩托车/自行车）？</p>
+            <div class="radio-group">
+              <label><input type="radio" name="post_cycle" value="是"> 是</label>
+              <label><input type="radio" name="post_cycle" value="否"> 否</label>
+            </div>
+          </div>
+
+          <div class="question-item">
+            <p>您认为自己比大多数人更擅长判断汽车的速度和距离。</p>
+            <div class="radio-group" id="post_overconf"></div>
+          </div>
+
+          <div class="question-item">
+            <p>我倾向于探索陌生的环境/场所</p>
+            <div class="radio-group" id="bsss1"></div>
+          </div>
+
+          <div class="question-item">
+            <p>我在家中停留时间过长会产生烦躁感</p>
+            <div class="radio-group" id="bsss2"></div>
+          </div>
+
+          <div class="question-item">
+            <p>我偏好从事具有惊险特性的活动</p>
+            <div class="radio-group" id="bsss3"></div>
+          </div>
+
+          <div class="question-item">
+            <p>我喜欢参与激烈的社交聚会</p>
+            <div class="radio-group" id="bsss4"></div>
+          </div>
+
+          <div class="question-item">
+            <p>我期望进行无预先规划路线或时间表的即兴旅行</p>
+            <div class="radio-group" id="bsss5"></div>
+          </div>
+
+          <div class="question-item">
+            <p>我偏爱那些令人兴奋且行为难以预测的朋友</p>
+            <div class="radio-group" id="bsss6"></div>
+          </div>
+
+          <div class="question-item">
+            <p>我愿意尝试蹦极活动</p>
+            <div class="radio-group" id="bsss7"></div>
+          </div>
+
+          <div class="question-item">
+            <p>我渴求新颖且刺激的体验，即使其具有潜在的违法性</p>
+            <div class="radio-group" id="bsss8"></div>
+          </div>
+
+          <button class="btn" id="btnPostSubmit" disabled>提交</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <script src="exp.js"></script>
+</body>
+</html>
