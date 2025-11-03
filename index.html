@@ -41,7 +41,16 @@
     z-index: 1000;
   }
   .modal.show { display: flex; }
-  
+    /* 情境问卷弹窗靠底部显示，让上方画面（包括红绿灯）始终可见 */
+  .modal-bottom {
+    align-items: flex-end;
+  }
+
+  .modal-bottom .modal-content {
+    max-height: 60vh;   /* 比全屏矮一点，留出更多上方视野 */
+    margin-bottom: 16px;
+  }
+
   .modal-content {
     background: #fff;
     border-radius: 16px;
@@ -157,7 +166,7 @@
       </div>
       
       <!-- 情境问卷弹窗 -->
-      <div class="modal" id="modalTrial">
+<div class="modal modal-bottom" id="modalTrial">
         <div class="modal-content">
           <div class="question-item">
             <p>假设您选择了直接横穿马路，您认为该行为的危险程度是多高？</p>
@@ -291,4 +300,5 @@
 </body>
 
 </html>
+
 
