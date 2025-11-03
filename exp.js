@@ -816,7 +816,7 @@ btnPostSubmit.addEventListener('click', ()=>{
 
 // ============ 数据上传（简易中国可用方案）============
 function uploadToServer(data) {
-  const ENDPOINT = 'https://api.ytong24.com/exp/save.php'; // ✅ HTTPS 跨域
+  const ENDPOINT = 'https://ytong24.com/save.php'; // ✅ HTTPS 跨域
   return fetch(ENDPOINT, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -868,6 +868,7 @@ function initUI(){
 initUI();
 
 // Post
+
 
 
 
