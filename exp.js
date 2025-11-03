@@ -815,84 +815,18 @@ btnPostSubmit.addEventListener('click', ()=>{
 });
 
 // ============ 数据上传（简易中国可用方案）============
- function uploadToServer(data, participantId) {
-            
-            // !!! 1. 替换为您的 GitHub 个人访问令牌 (PAT) !!!
-            const GITHUB_TOKEN = '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'; 
-            
-            // !!! 2. 替换为您的 GitHub 用户名 !!!
-            const GITHUB_OWNER = 'ohmytong'; 
-            
-            // !!! 3. 替换为您的 GitHub 仓库名称 !!!
-            const GITHUB_REPO = 'json-data-storage'; 
-            
-            // 文件将存储为: results/{Participant_ID}_data.json
-            const GITHUB_FILE_PATH_BASE = 'results/'; 
-            
-            const filePath = GITHUB_FILE_PATH_BASE + `${participantId}_data.json`;
-            const contentApiUrl = `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/${filePath}`;
-            
-            const dataToUpload = JSON.stringify(data, null, 2);
-            // 将数据转换为 Base64 编码
-            const contentBase64 = btoa(unescape(encodeURIComponent(dataToUpload)));
+function uploadToServer(data, participantId) {
+  return fetch("http://146.56.193.211/exp/save.php", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(data)
+  })
+  .then(res => {
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+    return res.json();
+  });
+}
 
-            let sha = null;
-
-            // Step 1: 尝试获取现有文件的 SHA，以确定是更新还是创建
-            return fetch(contentApiUrl, {
-                method: 'GET',
-                headers: {
-                    'Authorization': `token ${GITHUB_TOKEN}`,
-                    'Accept': 'application/vnd.github.v3+json'
-                }
-            })
-            .then(response => {
-                if (response.ok) {
-                    return response.json().then(fileData => {
-                        sha = fileData.sha;
-                    });
-                } else if (response.status === 404) {
-                    sha = null; // 文件不存在，将创建
-                } else {
-                    return response.json().then(error => {
-                        throw new Error(`获取文件信息失败 (${response.status}): ${error.message || response.statusText}`);
-                    });
-                }
-            })
-            .catch(error => {
-                // 忽略获取时的 404 错误，除非是其他严重错误
-                if (!error.message || !error.message.includes('404')) {
-                    console.error("GitHub GET error:", error);
-                    throw new Error(`文件检查失败：请确认仓库和PAT是否正确。`);
-                }
-            })
-            .then(() => {
-                // Step 2: 提交新的文件内容
-                const commitData = {
-                    message: `[Experiment Data] Participant ${participantId} data submission`,
-                    content: contentBase64,
-                    sha: sha 
-                };
-                
-                return fetch(contentApiUrl, {
-                    method: 'PUT',
-                    headers: {
-                        'Authorization': `token ${GITHUB_TOKEN}`,
-                        'Content-Type': 'application/json',
-                        'Accept': 'application/vnd.github.v3+json'
-                    },
-                    body: JSON.stringify(commitData)
-                });
-            })
-            .then(response => {
-                if (!response.ok) {
-                    return response.json().then(error => {
-                        throw new Error(`数据提交失败 (${response.status}): ${error.message || response.statusText}`);
-                    });
-                }
-                return response.json();
-            });
-        }
 
 // ============ 下载工具 ============
 function downloadJSON(obj, filename){
@@ -929,3 +863,4 @@ function initUI(){
 initUI();
 
 // Post
+
