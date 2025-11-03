@@ -677,10 +677,24 @@ function buildRowMatrix(dv1, dv2, dv3){
 }
 
 // ============ 开始按钮 ============
+// ============ 开始按钮 ============
 btnStart.addEventListener('click', ()=>{
+  const ok = confirm(
+    '请确认：\n\n' +
+    '屏幕上的红绿灯是“行人信号灯”，\n' +
+    '它表示的是你作为【行人】能不能过马路，而不是车的信号。\n\n' +
+    '如果你已经理解并同意，请点击“确定”继续。'
+  );
+
+  if (!ok) {
+    // 被试点“取消”，就先不开始实验
+    return;
+  }
+
   modalStart.classList.remove('show');
   preloadPhase();
 });
+
 
 // ============ 实验后问卷 ============
 function openPostSurvey(){
@@ -872,6 +886,7 @@ function initUI(){
 initUI();
 
 // Post
+
 
 
 
