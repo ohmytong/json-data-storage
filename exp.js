@@ -75,10 +75,8 @@ let sidewalkLeft, sidewalkRight, zoneCross, zoneDirect, lightPos;
   crosswalk.y += 40;
 
   // 把红绿灯放在人行横道上方，让它更靠近视线中间
-  lightPos = {
-    x: road.x - 48,
-    y: Math.max(12, crosswalk.y - lightBoxH - 10)
-  };
+  lightPos = { x: road.x - 48, y: sidewalkTop + lightOffsetBelowSidewalk + 30};
+
 
   zoneCross = { x: road.x, y: crosswalk.y - 10, w: road.width, h: crosswalk.height + 20 };
   const midY = Math.round(H/2);
@@ -886,6 +884,7 @@ function initUI(){
 initUI();
 
 // Post
+
 
 
 
