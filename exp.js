@@ -832,7 +832,7 @@ btnPostSubmit.addEventListener('click', ()=>{
 
 // ============ 数据上传（简易中国可用方案）============
 function uploadToServer(data) {
-const ENDPOINT = 'http://146.56.193.211/exp/save.php';
+const ENDPOINT = 'https://146.56.193.211/save.php';
   return fetch(ENDPOINT, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -884,6 +884,7 @@ function initUI(){
 initUI();
 
 // Post
+
 
 
 
