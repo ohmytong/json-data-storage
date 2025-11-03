@@ -816,18 +816,20 @@ btnPostSubmit.addEventListener('click', ()=>{
 
 // ============ 数据上传（简易中国可用方案）============
 function uploadToServer(data) {
-  return fetch("http://146.56.193.211/exp/save.php", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
+  const ENDPOINT = 'https://api.ytong24.com/exp/save.php'; // ✅ HTTPS 跨域
+  return fetch(ENDPOINT, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(data)
   }).then(async (res) => {
     const txt = await res.text();
     let json = {};
-    try { json = JSON.parse(txt); } catch (_) {}
-    if (!res.ok || !json.ok) throw new Error('HTTP '+res.status+' '+(json.error||txt));
+    try { json = JSON.parse(txt); } catch {}
+    if (!res.ok || !json.ok) throw new Error('HTTP ' + res.status + ' ' + (json.error || txt));
     return json;
   });
 }
+
 
 
 
@@ -866,5 +868,6 @@ function initUI(){
 initUI();
 
 // Post
+
 
 
