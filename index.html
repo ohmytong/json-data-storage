@@ -4,6 +4,11 @@
   <meta charset="utf-8" />
   <title>过街行为决策实验</title>
 <style>
+  :root {
+  /* 情境问卷离实验界面（canvas）底部的距离，想调就改这里 */
+  --trial-bottom-offset: 32px;
+}
+
   * { box-sizing: border-box; }
   html, body {
     margin: 0;
@@ -50,6 +55,24 @@
     max-height: 60vh;   /* 比全屏矮一点，留出更多上方视野 */
     margin-bottom: 16px;
   }
+  /* 只对情境问卷生效：改成覆盖实验界面，而不是整个窗口 */
+#modalTrial {
+  position: absolute;          /* 覆盖 .modal 里原来的 fixed */
+  inset: auto;                 /* 取消原来的 inset:0 */
+  top: 0;
+  left: 0;
+  width: 100%;                 /* 覆盖整个 container（也就是 canvas 区域） */
+  height: 100%;
+  background: rgba(0,0,0,0.4); /* 半透明遮罩，还能看到下面场景和红绿灯 */
+  align-items: flex-end;       /* 内容靠底对齐 */
+}
+
+/* 情境问卷内容：离底部一点点，最大高度不挡住太多画面 */
+#modalTrial .modal-content {
+  max-height: 60vh;
+  margin-bottom: var(--trial-bottom-offset);
+}
+
 
   .modal-content {
     background: #fff;
@@ -300,5 +323,6 @@
 </body>
 
 </html>
+
 
 
