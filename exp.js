@@ -815,17 +815,20 @@ btnPostSubmit.addEventListener('click', ()=>{
 });
 
 // ============ 数据上传（简易中国可用方案）============
-function uploadToServer(data, participantId) {
+function uploadToServer(data) {
   return fetch("http://146.56.193.211/exp/save.php", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(data)
-  })
-  .then(res => {
-    if (!res.ok) throw new Error('HTTP ' + res.status);
-    return res.json();
+  }).then(async (res) => {
+    const txt = await res.text();
+    let json = {};
+    try { json = JSON.parse(txt); } catch (_) {}
+    if (!res.ok || !json.ok) throw new Error('HTTP '+res.status+' '+(json.error||txt));
+    return json;
   });
 }
+
 
 
 // ============ 下载工具 ============
@@ -863,4 +866,5 @@ function initUI(){
 initUI();
 
 // Post
+
 
